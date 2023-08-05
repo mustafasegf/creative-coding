@@ -9,6 +9,7 @@ struct Model {
     points: Vec<Point2>,
     egui: Egui,
     len: f32,
+    n: usize,
 }
 
 fn model(app: &App) -> Model {
@@ -26,8 +27,8 @@ fn model(app: &App) -> Model {
     let window = app.window(window_id).unwrap();
     let egui = Egui::from_window(&window);
 
-    let order = 4;
-    let n = pow(2, order) as usize;
+    let order = 2;
+    let n: usize = pow(2, order) as usize;
     let total = n * n;
     let len = w as f32 / n as f32;
 
@@ -38,6 +39,7 @@ fn model(app: &App) -> Model {
     Model {
         egui,
         points,
+        n,
         len: w as f32 / (2 * n) as f32,
     }
 }
@@ -82,9 +84,8 @@ fn view(app: &App, model: &Model, frame: Frame) {
     draw.background().color(PLUM);
 
     let len = model.points.len();
-    let t = app.time * 100.0 % (len as f32) * 2.0;
+    let t = app.time * (model.n as f32) % (len as f32) * 2.0;
     let skip = (t as i32 - len as i32).max(0) as usize % len;
-    // println!("{skip}");
 
     let points = model
         .points
@@ -94,7 +95,7 @@ fn view(app: &App, model: &Model, frame: Frame) {
         .take(t as usize % (2 * len))
         .enumerate()
         .map(|(i, p)| {
-            let fract = i as f32 / (len - skip) as f32;
+            let fract = (i as f32 + skip as f32) / (len) as f32;
             let r = fract % 1.0;
             let g = (1.0 - fract) % 1.0;
             let b = (0.5 + fract) % 1.0;
@@ -103,7 +104,7 @@ fn view(app: &App, model: &Model, frame: Frame) {
         });
 
     draw.polyline()
-        .weight(10.0)
+        .weight(model.len * 1.5)
         .join_round()
         .x_y(model.len, model.len)
         .points_colored(points);
