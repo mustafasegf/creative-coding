@@ -84,8 +84,8 @@ fn view(app: &App, model: &Model, frame: Frame) {
     draw.background().color(PLUM);
 
     let len = model.points.len();
-    let t = app.time * (model.n as f32) % (len as f32) * 2.0;
-    let skip = (t as i32 - len as i32).max(0) as usize % len;
+    let t = app.time * (model.n as f32 * 4.0);
+    let skip = (t as i32 - len as i32).max(0) as usize;
 
     let points = model
         .points
@@ -112,8 +112,13 @@ fn view(app: &App, model: &Model, frame: Frame) {
     draw.to_frame(app, &frame).unwrap();
     // model.egui.draw_to_frame(&frame).unwrap();
 
-    let file_path = captured_frame_path(app, &frame);
-    app.main_window().capture_frame(file_path);
+    // let file_path = captured_frame_path(app, &frame);
+
+    
+    // app.main_window().capture_frame(file_path);
+    // if skip >= len {
+    //     app.quit();
+    // }
 }
 
 fn captured_frame_path(app: &App, frame: &Frame) -> std::path::PathBuf {
