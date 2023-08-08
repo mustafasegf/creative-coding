@@ -114,7 +114,6 @@ fn view(app: &App, model: &Model, frame: Frame) {
 
     let file_path = captured_frame_path(app, &frame);
 
-
     app.main_window().capture_frame(file_path);
     // if skip >= len {
     //     app.quit();

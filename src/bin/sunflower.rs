@@ -21,8 +21,7 @@ struct Point {
 fn model(app: &App) -> Model {
     let w = 512;
     let h = w;
-    app
-        .new_window()
+    app.new_window()
         .size(w, h)
         .title("sunflower")
         .view(view)
@@ -41,19 +40,12 @@ fn update(_app: &App, model: &mut Model, _update: Update) {
     model.n += 1.0;
 
     let phi = model.n * model.angle.to_radians();
-    // println!("{phi}");
     let radius = model.constant * (phi).sqrt();
 
     let x = radius * phi.cos();
     let y = radius * phi.sin();
 
-    model.points.push(Point {
-        x,
-        y,
-        phi: phi.to_degrees(),
-        radius,
-    });
-
+    model.points.push(Point { x, y, phi, radius });
 }
 
 fn view(app: &App, model: &Model, frame: Frame) {
@@ -61,10 +53,11 @@ fn view(app: &App, model: &Model, frame: Frame) {
     draw.background().color(BLACK);
 
     for (i, p) in model.points.iter().enumerate() {
-        draw.ellipse()
-            .x_y(p.x, p.y)
-            .radius(4.0)
-            .color(hsv(map_range(i % 256, 0, 255, 0.0, 1.0) , 1.0,  1.0));
+        draw.ellipse().x_y(p.x, p.y).radius(4.0).color(hsv(
+            map_range(i % 256, 0, 255, 0.0, 1.0),
+            1.0,
+            1.0,
+        ));
     }
     draw.to_frame(app, &frame).unwrap();
 
