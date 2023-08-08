@@ -112,10 +112,10 @@ fn view(app: &App, model: &Model, frame: Frame) {
     draw.to_frame(app, &frame).unwrap();
     // model.egui.draw_to_frame(&frame).unwrap();
 
-    // let file_path = captured_frame_path(app, &frame);
+    let file_path = captured_frame_path(app, &frame);
 
-    
-    // app.main_window().capture_frame(file_path);
+
+    app.main_window().capture_frame(file_path);
     // if skip >= len {
     //     app.quit();
     // }
