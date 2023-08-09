@@ -68,17 +68,8 @@ fn raw_window_event(app: &App, model: &mut Model, event: &WindowEvent) {
 }
 
 fn create_wireframe(cuboid: &Cuboid) -> Vec<Cuboid> {
-    let x = cuboid.x();
-    let y = cuboid.y();
-    let z = cuboid.z();
-
-    let ww = cuboid.w();
-    let hh = cuboid.h();
-    let dd = cuboid.d();
-
-    let xx = ww * 0.5;
-    let yy = hh * 0.5;
-    let zz = dd * 0.5;
+    let (x, y, z, ww, hh, dd) = cuboid.x_y_z_w_h_d();
+    let (xx, yy, zz) = (ww * 0.5, hh * 0.5, dd * 0.5);
 
     let w = 5.0; // wire width
     vec![
